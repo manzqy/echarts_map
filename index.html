@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>echarts中国地图数据</title>
+</head>
+<!-- 引入echarts.js -->
+<script src="./echarts.js"></script>
+<!-- 引入china.js -->
+<script src="./china.js"></script>
+
+<body>
+    <!--为 ECharts 准备一个具备大小（宽高）的 DOM  -->
+    <div id="main" style="width: 940px;height:660px;border:1px solid #ccc;padding:10px;"></div>
+</body>
+<script>
+    //写入随机数来测试数据
+    function randomData() {
+        return Math.round(Math.random() * 500);
+    }
+    // 数据
+    var mydata = [
+        { name: '北京', value: randomData() }, { name: '天津', value: randomData() },
+        { name: '上海', value: randomData() }, { name: '重庆', value: randomData() },
+        { name: '河北', value: randomData() }, { name: '河南', value: randomData() },
+        { name: '云南', value: randomData() }, { name: '辽宁', value: randomData() },
+        { name: '黑龙江', value: randomData() }, { name: '湖南', value: randomData() },
+        { name: '安徽', value: randomData() }, { name: '山东', value: randomData() },
+        { name: '新疆', value: randomData() }, { name: '江苏', value: randomData() },
+        { name: '浙江', value: randomData() }, { name: '江西', value: randomData() },
+        { name: '湖北', value: randomData() }, { name: '广西', value: randomData() },
+        { name: '甘肃', value: randomData() }, { name: '山西', value: randomData() },
+        { name: '内蒙古', value: randomData() }, { name: '陕西', value: randomData() },
+        { name: '吉林', value: randomData() }, { name: '福建', value: randomData() },
+        { name: '贵州', value: randomData() }, { name: '广东', value: randomData() },
+        { name: '青海', value: randomData() }, { name: '西藏', value: randomData() },
+        { name: '四川', value: randomData() }, { name: '宁夏', value: randomData() },
+        { name: '海南', value: randomData() }, { name: '台湾', value: randomData() },
+        { name: '香港', value: randomData() }, { name: '澳门', value: randomData() }
+    ];
+
+    //初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+
+    // 自己的数据写入value里 实例化option，配置属性，data置入数据
+    var optionMap = {
+        backgroundColor: '#FFFFFF',  
+        title: {
+            text: '全国地图大数据',
+            subtext: '你好，中国',  
+            x: 'center'
+        },
+        tooltip: {  //提示框组件
+            trigger: 'item'
+        },
+
+        //左侧小导航图标
+        visualMap: {  //visualMap 是视觉映射组件，用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）。
+            show: true,  //是否显示组件 默认为true 如果设置为 false，不会显示，但是数据映射的功能还存在。
+            x: 'left',
+            y: 'top',
+            splitList: [   //注：在 ECharts2 中，pieces 叫做 splitList。现在后者仍兼容，但推荐使用 pieces）
+                { start: 500, end: 600 }, { start: 400, end: 500 },
+                { start: 300, end: 400 }, { start: 200, end: 300 },
+                { start: 100, end: 200 }, { start: 50, end: 100 },
+            ],
+            color: ['#5475f5', '#9feaa5', '#85daef', '#74e2ca', '#e6ac53', '#9fb5ea']
+        },
+
+        //配置属性
+        series: [{  //系列列表。每个系列通过 type 决定自己的图表类型
+            name: '湿度',
+            type: 'map',  //图表类型
+            mapType: 'china', //地图类型
+            roam: true,  //是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移，可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+            label: {  //图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等，
+                normal: {
+                    show: true  //省份名称  
+                },
+                emphasis: {//对应的鼠标悬浮效果
+                    show: true,
+                    textStyle: { color: "green" }//鼠标移入时省份的颜色
+                }
+            //    emphasis: {  //高亮状态下的多边形和标签样式。
+            //         show: false  //是否显示 默认为false
+            //     }
+            },
+            data: mydata  //数据
+        }]
+    };
+
+    //使用制定的配置项和数据显示图表
+    myChart.setOption(optionMap);
+
+        // visualMap视觉映射组件可以定义为 分段型（visualMapPiecewise） 或 连续型（visualMapContinuous）
+        // 通过type来定义 type: 'continuous' type：'piecewise'
+        // 分段型视觉映射组件（visualMapPiecewise）
+    /* 分段型视觉映射组件，有三种模式：
+    连续型数据平均分段: 依据 visualMap-piecewise.splitNumber 来自动平均分割成若干块。
+    连续型数据自定义分段: 依据 visualMap-piecewise.pieces 来定义每块范围。
+    离散数据根据类别分段: 类别定义在 visualMap-piecewise.categories 中。 */
+</script>
+
+</html>
